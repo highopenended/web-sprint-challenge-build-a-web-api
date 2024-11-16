@@ -21,7 +21,7 @@ async function validateActionBody(req, res, next) {
         !project_id ||
         !description ||
         !notes ||
-        completed === ""
+        completed === undefined
     ) {
         res.status(400).json({
             message:

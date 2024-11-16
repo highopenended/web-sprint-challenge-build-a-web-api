@@ -13,8 +13,9 @@ async function validateProjectId(req, res, next) {
 
 async function validateProjectBody(req, res, next) {
     const { name, description, completed } = req.body;
+    console.log(completed);
 
-    if (!name || !description || completed==="") {
+    if (!name || !description || completed === undefined) {
         res.status(400).json({
             message: "project must contain 'name', 'description', 'completed'",
         });
