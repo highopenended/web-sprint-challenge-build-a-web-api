@@ -1,26 +1,30 @@
-const Project = require("../projects/projects-model");
-
+const Project = require("./projects-model");
 
 async function validateProjectId(req, res, next) {
-    try {
-      const project = await Project.get(req.params.id);
-      if (!project) {
-        res.status(404).json({
-          message: "project not found",
-        });
-      } else {
+    const project = await Project.get(req.params.id);
+    if (!project) {
+        res.status(404).json({ message: "project not found" });
+    } else {
         req.project = project;
+        req.id = req.params.id;
         next();
-      }
-    } catch (err) {
-      res.status(500).json({
-        message: "problem finding project",
-      });
     }
-  }
+}
 
-  
+async function validateProjectBody(req, res, next) {
+    const { name, description, completed } = req.body;
+
+    if (!name || !description || completed==="") {
+        res.status(400).json({
+            message: "project must contain 'name', 'description', 'completed'",
+        });
+    } else {
+        req.projectBody = { name, description, completed };
+        next();
+    }
+}
+
 module.exports = {
     validateProjectId,
-  };
-  
+    validateProjectBody,
+};
