@@ -1,9 +1,35 @@
 const express = require('express');
 const server = express();
+server.use(express.json());
+const projectsRouter = require("./projects/projects-router");
+const actionsRouter = require("./actions/actions-router");
 
-// Configure your server here
-// Build your actions router in /api/actions/actions-router.js
-// Build your projects router in /api/projects/projects-router.js
-// Do NOT `server.listen()` inside this file!
+
+// function logger(req, res, next) {
+//     const timeStamp = new Date().toLocaleString();
+//     const method = req.method;
+//     const url = req.originalUrl;
+//     console.log(`[${timeStamp}] ${method} to ${url}`);
+//     next();
+// }
+
+
+
+
+
+
+
+server.get("/", (req, res) => {
+    res.send(`<h2>Let's write some middleware!</h2>`);
+    const timeStamp = new Date().toLocaleString();
+    const method = req.method;
+    const url = req.originalUrl;
+    console.log(`[${timeStamp}] ${method} to ${url}`);
+});
+
+
+server.use("/api/projects/", projectsRouter);
+server.use("/api/actions/", actionsRouter);
+
 
 module.exports = server;
